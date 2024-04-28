@@ -1,6 +1,14 @@
 {
-    "files.associations": {
-        "system_error": "cpp",
-        "vector": "cpp"
-    }
+  "files.associations": {
+    "*.ino": "c",
+    "system_error": "cpp",
+    "vector": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "string_view": "cpp",
+    "initializer_list": "cpp"
+  }
 }
