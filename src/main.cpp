@@ -3,7 +3,7 @@
 #include "config.h"
 #include "BME680.h"
 #include "SerialComs.h"
-#include "motorControll.h"
+#include "MotorControl.h"
 
 void setup()
 {
@@ -27,5 +27,5 @@ void setup1()
 void loop1()
 {
   // motor controll on core1
-  motorControllLoop();
+  motorControlLoop();
 }
