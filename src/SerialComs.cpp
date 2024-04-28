@@ -4,8 +4,8 @@
 ReceivedData receivedData; // Declaration of the received data object
 SharedData sharedData;     // Declaration of the shared data object
 
-int instruction;
-int cut;
+int gliderInstruction;
+int operation;
 
 void setupSerialComs()
 {
@@ -29,11 +29,11 @@ void loopSerialComs()
     // available message:
     while (Serial1.available() > 0)
     {
-        // "control,cut\n" (if -1, then no instruction)
+        // "control,operation\n" (if -1, then no instruction)
         String message = Serial1.readStringUntil('\n');
-        parseString(message, instruction, cut);
-        receivedData.instruction = instruction;
-        receivedData.cut = cut;
+        parseString(message, gliderInstruction, operation);
+        receivedData.gliderInstruction = gliderInstruction;
+        receivedData.operation = operation;
         receivedData.dataReady = true;
     }
 

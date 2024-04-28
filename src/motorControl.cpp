@@ -19,6 +19,11 @@ void motorControlSetup()
     pinMode(MOSFET_2_PIN, OUTPUT);
     digitalWrite(MOSFET_2_PIN, LOW); // Set MOSFET_2_PIN HIGH to enable MOSFET()
 
+    pinMode(BUZZER_PIN, OUTPUT);
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(200);
+    digitalWrite(BUZZER_PIN, LOW);
+
     motor1.init();
     motor2.init();
 }
@@ -27,11 +32,11 @@ void motorControlLoop()
     if (!receivedData.dataReady)
         return;
 
-    int instruction = receivedData.instruction; // Instruction range 0-255
-    int cut = receivedData.cut;
-    int targetValue2 = 255 - instruction; // Complementary target for motor2
+    int gliderInstruction = receivedData.gliderInstruction; // Instruction range 0-255
+    int operation = receivedData.operation;
+    int targetValue2 = 255 - gliderInstruction; // Complementary target for motor2
 
-    switch (cut)
+    switch (operation)
     {
     case 1:
         digitalWrite(MOSFET_1_PIN, HIGH);
@@ -40,9 +45,17 @@ void motorControlLoop()
     case 2:
         digitalWrite(MOSFET_2_PIN, HIGH);
         break;
+
+    case 3:
+        digitalWrite(BUZZER_PIN, HIGH);
+        break;
+
+    case 4:
+        digitalWrite(BUZZER_PIN, LOW);
+        break;
     }
 
-    if (instruction == -1)
+    if (gliderInstruction == -1)
         return;
 
     int analogValue1 = analogRead(ANALOG_MOTOR_PIN_1);
@@ -51,7 +64,7 @@ void motorControlLoop()
     int motorValue1 = map(analogValue1, 0, 1023, 0, 255);
     int motorValue2 = map(analogValue2, 0, 1023, 0, 255);
 
-    adjustMotor(motor1, motorValue1, instruction);
+    adjustMotor(motor1, motorValue1, gliderInstruction);
     adjustMotor(motor2, motorValue2, targetValue2);
 }
 
