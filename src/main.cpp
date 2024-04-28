@@ -15,35 +15,19 @@ void setupLoRa();
 void setup()
 {
   Serial.begin(115200); // Serial to computer
-  setupGPS();
   setupBME680();
-  setupIMU();
 }
 
 void loop()
 {
-
-  getGPSData(message);
   getBME680Data(message);
-  getIMUData(message);
   initSharedDataStructures();
 }
 
 void setup1()
 {
-  setupLoRa();
 }
 
 void loop1()
 {
-  if (state == "0")
-  {
-    onReceive(LoRa.parsePacket());
-  }
-  if (state == "1")
-  {
-    onReceive(LoRa.parsePacket());
-  }
-
-  sendMessage();
 }
