@@ -2,20 +2,23 @@
 #include "BME680.h"
 #include <Arduino.h>
 #include "sharedData.h"
-#include "Wire.h"
+#include <Wire.h>
 
-SharedData sharedData; // Declaration of the shared data object
-
-Adafruit_BME680 bme(&Wire1); // Initialize the BME680 sensor instance
+SharedData sharedData;                        // Declaration of the shared data object
+Adafruit_BME680 bme = Adafruit_BME680(&Wire); // Initialize the BME680 sensor instance
 
 void setupBME680()
 {
-    Wire1.setSDA(6);
-    Wire1.setSCL(7);
-    Wire1.begin();
+    Wire.setSDA(6);
+    Wire.setSCL(7);
+    Wire.begin();
     if (!bme.begin())
     {
-        Serial.println("Could not find a valid BME680 sensor, check wiring!");
+        while (1)
+        {
+            Serial.println("Could not find a valid BME680 sensor, check wiring!");
+            delay(200);
+        }
     }
     else
     {
