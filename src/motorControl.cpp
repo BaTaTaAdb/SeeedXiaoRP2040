@@ -20,7 +20,7 @@ void motorControlSetup()
 }
 void motorControlLoop()
 {
-    if (!receivedData.dataReady || receivedData.state != 1)
+    if (!receivedData.dataReady || receivedData.instruction == -1)
     {
         return;
     }

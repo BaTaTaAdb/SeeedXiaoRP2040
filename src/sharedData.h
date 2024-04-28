@@ -9,8 +9,7 @@ struct SharedData
 };
 struct ReceivedData
 {
-    int state;               // 1 controll, 0 default
-    int instruction;         // value 0-255 (stearing)
+    int instruction;         // value 0-255 (stearing) if -1, then no steering
     volatile bool dataReady; // Flag to indicate new data is ready
 };
 

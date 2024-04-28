@@ -1,4 +1,7 @@
 #include "SerialComs.h"
+#include "sharedData.h"
+
+ReceivedData receivedData; // Declaration of the received data object
 
 void setupSerialComs()
 {
@@ -22,7 +25,23 @@ void loopSerialComs()
     // available message:
     while (Serial1.available() > 0)
     {
-        // state,controll
-        String message = Serial.readStringUntil('\n');
+        // controll (if -1, then no instruction)
+        String message = Serial1.readStringUntil('\n');
+        int instruction = message.toDouble();
+        receivedData.instruction = instruction;
+        receivedData.dataReady = true;
     }
 }
+
+/* void parseString(const String &input, int &num1, int &num2)
+{
+    int commaIndex = input.indexOf(',');
+    if (commaIndex == -1)
+    {
+        Serial.println("Error: No comma in string.");
+        return;
+    }
+
+    num1 = input.substring(0, commaIndex).toInt();
+    num2 = input.substring(commaIndex + 1).toInt();
+} */
