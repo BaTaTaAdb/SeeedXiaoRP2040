@@ -19,13 +19,16 @@ void motorControlSetup()
     pinMode(MOSFET_2_PIN, OUTPUT);
     digitalWrite(MOSFET_2_PIN, LOW); // Set MOSFET_2_PIN HIGH to enable MOSFET()
 
+    delay(1000);
     pinMode(BUZZER_PIN, OUTPUT);
-    digitalWrite(BUZZER_PIN, HIGH);
-    delay(200);
     digitalWrite(BUZZER_PIN, LOW);
+    delay(100);
+    digitalWrite(BUZZER_PIN, HIGH);
 
     motor1.init();
     motor2.init();
+
+    Serial.println("MOTORS: READY!");
 }
 void motorControlLoop()
 {
