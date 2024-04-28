@@ -48,6 +48,8 @@ void loopSerialComs()
         Serial1.print(sharedData.humidity);
         Serial1.print(",");
         Serial1.print(sharedData.gasResistance);
+        Serial1.print(",");
+        Serial1.print(sharedData.vbat);
         Serial1.println();
     }
 }

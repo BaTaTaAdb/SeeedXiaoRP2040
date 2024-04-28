@@ -3,7 +3,7 @@
 
 struct SharedData
 {
-    double pressure, temperature, height, humidity, gasResistance;
+    double pressure, temperature, height, humidity, gasResistance, vbat;
     double groundPressure;
     volatile bool dataReady; // Flag to indicate new data is ready
 };

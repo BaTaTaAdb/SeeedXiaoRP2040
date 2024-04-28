@@ -9,6 +9,9 @@ Adafruit_BME680 bme = Adafruit_BME680(&Wire); // Initialize the BME680 sensor in
 
 void setupBME680()
 {
+    // set vbat analog pin
+    pinMode(VBAT_PIN, INPUT);
+
     Wire.setSDA(6);
     Wire.setSCL(7);
     Wire.begin();
@@ -48,6 +51,7 @@ void getBME680Data()
         sharedData.height = bme.readAltitude(sharedData.groundPressure);
         sharedData.humidity = bme.readHumidity();
         sharedData.gasResistance = bme.gas_resistance / 1000;
+        sharedData.vbat = analogRead(VBAT_PIN) * (5.0 / 1024.0) * 3; // Converte o valor lido em volts
         sharedData.dataReady = true;
         */
         sharedData.pressure = bme.pressure / 100;
@@ -55,6 +59,7 @@ void getBME680Data()
         sharedData.height = bme.readAltitude(sharedData.groundPressure);
         sharedData.humidity = bme.readHumidity();
         sharedData.gasResistance = bme.gas_resistance / 1000;
+        sharedData.vbat = analogRead(VBAT_PIN) * (5.0 / 1024.0) * 3; // Reads analog pin and converts it to volts
         sharedData.dataReady = true;
     }
 }

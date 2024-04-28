@@ -5,6 +5,8 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME680.h>
 
+const int VBAT_PIN = 29;
+
 // Function declarations
 void setupBME680();
 void getBME680Data();
