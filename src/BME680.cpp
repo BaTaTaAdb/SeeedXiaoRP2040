@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include "BME680.h"
 #include <Arduino.h>
-#include "sharedData.h"
+#include "SharedData.h"
 #include <Wire.h>
 
-SharedData sharedData;                        // Declaration of the shared data object
+//SharedData sharedData;                        // Declaration of the shared data object
 Adafruit_BME680 bme = Adafruit_BME680(&Wire); // Initialize the BME680 sensor instance
 
 void setupBME680()

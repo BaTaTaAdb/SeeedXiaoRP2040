@@ -1,8 +1,8 @@
 #include "MotorControl.h"
 #include <Wire.h>
-#include "sharedData.h"
+#include "SharedData.h"
 
-ReceivedData receivedData;    // Declaration of the received data object
+// ReceivedData receivedData;    // Declaration of the received data object
 MiniMotor motor1(Wire, 0x60); // A1 = 1, A0 = clear
 MiniMotor motor2(Wire, 0x65); // A1 = 1, A0 = 1 (default)
 

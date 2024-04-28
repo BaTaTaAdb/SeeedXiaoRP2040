@@ -1,8 +1,8 @@
 #include "SerialComs.h"
-#include "sharedData.h"
+#include "SharedData.h"
 
-ReceivedData receivedData; // Declaration of the received data object
-SharedData sharedData;     // Declaration of the shared data object
+//ReceivedData receivedData; // Declaration of the received data object
+//SharedData sharedData;     // Declaration of the shared data object
 
 int gliderInstruction;
 int operation;
