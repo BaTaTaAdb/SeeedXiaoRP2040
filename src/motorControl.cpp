@@ -6,6 +6,10 @@ ReceivedData receivedData;    // Declaration of the received data object
 MiniMotor motor1(Wire, 0x60); // A1 = 1, A0 = clear
 MiniMotor motor2(Wire, 0x65); // A1 = 1, A0 = 1 (default)
 
+const int range = 20;
+const int motorDriveStrength = 100;
+const int updateInterval = 50; // Interval for updating motor position
+
 void motorControlSetup()
 {
     pinMode(ANALOG_MOTOR_PIN_1, INPUT);
@@ -16,35 +20,32 @@ void motorControlSetup()
 }
 void motorControlLoop()
 {
-    if (receivedData.dataReady == false || receivedData.state != 1)
+    if (!receivedData.dataReady || receivedData.state != 1)
     {
         return;
     }
 
-    int instruction = receivedData.instruction; // int between 0-255
+    int instruction = receivedData.instruction; // Instruction range 0-255
+    int targetValue2 = 255 - instruction;       // Complementary target for motor2
+
     int analogValue1 = analogRead(ANALOG_MOTOR_PIN_1);
     int analogValue2 = analogRead(ANALOG_MOTOR_PIN_2);
+
     int motorValue1 = map(analogValue1, 0, 1023, 0, 255);
     int motorValue2 = map(analogValue2, 0, 1023, 0, 255);
 
-    while (motorValue1 < instruction)
-    // If the motor value is less than the instruction, then drive the motor forward
-    {
-        motor1.drive(63);
-        motor2.drive(-63);
-        delayUntil(50);
+    adjustMotor(motor1, motorValue1, instruction);
+    adjustMotor(motor2, motorValue2, targetValue2);
+}
 
-        if (motorValue1 > instruction)
-        {
-            break;
-        }
-    }
-
-    while (motorValue1 > instruction)
-    // If the motor value is greater than the instruction, then drive the motor backward
+void adjustMotor(MiniMotor &motor, int currentValue, int targetValue)
+{
+    if (abs(currentValue - targetValue) > range)
     {
-        motor1.drive(-63);
-        motor2.drive(63);
+        int direction = (currentValue < targetValue) ? motorDriveStrength : -motorDriveStrength;
+        motor.drive(direction);
+        delay(updateInterval);
+        checkAndReportFault(motor);
     }
 }
 
@@ -53,21 +54,17 @@ void delayUntil(unsigned long elapsedTime)
     unsigned long startTime = millis();
     while (startTime + elapsedTime > millis())
     {
-        checkAndReportFault(motor1, 0); // Check and report faults for motor1
-        checkAndReportFault(motor2, 1); // Check and report faults for motor2
+        checkAndReportFault(motor1); // Check and report faults for motor1
+        checkAndReportFault(motor2); // Check and report faults for motor2
     }
 }
 
-void checkAndReportFault(MiniMotor &motor, int motorNumber)
+void checkAndReportFault(MiniMotor &motor)
 {
     byte faultStatus = motor.getFault();
-
     if (faultStatus & FAULT)
     {
-        Serial.print("Motor ");
-        Serial.print(motorNumber);
-        Serial.print(" fault: ");
-
+        Serial.print("Motor fault: ");
         if (faultStatus & OCP)
             Serial.println("Chip overcurrent!");
         if (faultStatus & ILIMIT)

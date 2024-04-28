@@ -9,7 +9,8 @@ const int ANALOG_MOTOR_PIN_2 = 26;
 
 void motorControlSetup();
 void motorControlLoop();
-void checkAndReportFault(MiniMotor &motor, int motorNumber);
+void checkAndReportFault(MiniMotor &motor);
 void delayUntil(unsigned long elapsedTime);
+void adjustMotor(MiniMotor &motor, int currentValue, int targetValue);
 
 #endif
