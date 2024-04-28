@@ -9,6 +9,6 @@ const int UART_BAUD_RATE = 9600;
 
 void setupSerialComs();
 void loopSerialComs();
-// void parseString(const String &input, int &num1, int &num2);
+void parseString(const String &input, int &num1, int &num2);
 
 #endif

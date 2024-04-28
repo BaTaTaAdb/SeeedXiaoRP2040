@@ -14,19 +14,36 @@ void motorControlSetup()
 {
     pinMode(ANALOG_MOTOR_PIN_1, INPUT);
     pinMode(ANALOG_MOTOR_PIN_2, INPUT);
+    pinMode(MOSFET_1_PIN, OUTPUT);
+    digitalWrite(MOSFET_1_PIN, LOW); // Set MOSFET_1_PIN HIGH to enable MOSFET()
+    pinMode(MOSFET_2_PIN, OUTPUT);
+    digitalWrite(MOSFET_2_PIN, LOW); // Set MOSFET_2_PIN HIGH to enable MOSFET()
 
     motor1.init();
     motor2.init();
 }
 void motorControlLoop()
 {
-    if (!receivedData.dataReady || receivedData.instruction == -1)
-    {
+    if (!receivedData.dataReady)
         return;
-    }
 
     int instruction = receivedData.instruction; // Instruction range 0-255
-    int targetValue2 = 255 - instruction;       // Complementary target for motor2
+    int cut = receivedData.cut;
+    int targetValue2 = 255 - instruction; // Complementary target for motor2
+
+    switch (cut)
+    {
+    case 1:
+        digitalWrite(MOSFET_1_PIN, HIGH);
+        break;
+
+    case 2:
+        digitalWrite(MOSFET_2_PIN, HIGH);
+        break;
+    }
+
+    if (instruction == -1)
+        return;
 
     int analogValue1 = analogRead(ANALOG_MOTOR_PIN_1);
     int analogValue2 = analogRead(ANALOG_MOTOR_PIN_2);

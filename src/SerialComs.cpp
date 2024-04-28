@@ -2,6 +2,10 @@
 #include "sharedData.h"
 
 ReceivedData receivedData; // Declaration of the received data object
+SharedData sharedData;     // Declaration of the shared data object
+
+int instruction;
+int cut;
 
 void setupSerialComs()
 {
@@ -25,15 +29,30 @@ void loopSerialComs()
     // available message:
     while (Serial1.available() > 0)
     {
-        // controll (if -1, then no instruction)
+        // "control,cut\n" (if -1, then no instruction)
         String message = Serial1.readStringUntil('\n');
-        int instruction = message.toDouble();
+        parseString(message, instruction, cut);
         receivedData.instruction = instruction;
+        receivedData.cut = cut;
         receivedData.dataReady = true;
+    }
+
+    if (sharedData.dataReady)
+    {
+        Serial1.print(sharedData.pressure);
+        Serial1.print(",");
+        Serial1.print(sharedData.temperature);
+        Serial1.print(",");
+        Serial1.print(sharedData.height);
+        Serial1.print(",");
+        Serial1.print(sharedData.humidity);
+        Serial1.print(",");
+        Serial1.print(sharedData.gasResistance);
+        Serial1.println();
     }
 }
 
-/* void parseString(const String &input, int &num1, int &num2)
+void parseString(const String &input, int &num1, int &num2)
 {
     int commaIndex = input.indexOf(',');
     if (commaIndex == -1)
@@ -44,4 +63,4 @@ void loopSerialComs()
 
     num1 = input.substring(0, commaIndex).toInt();
     num2 = input.substring(commaIndex + 1).toInt();
-} */
+}

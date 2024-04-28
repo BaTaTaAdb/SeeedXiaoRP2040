@@ -7,6 +7,9 @@
 const int ANALOG_MOTOR_PIN_1 = 27;
 const int ANALOG_MOTOR_PIN_2 = 26;
 
+const int MOSFET_1_PIN = 10;
+const int MOSFET_2_PIN = 11;
+
 void motorControlSetup();
 void motorControlLoop();
 void checkAndReportFault(MiniMotor &motor);

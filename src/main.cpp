@@ -29,5 +29,5 @@ void setup1()
 void loop1()
 {
   // motor controll on core1
-  // motorControlLoop();
+  motorControlLoop();
 }

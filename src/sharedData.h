@@ -10,6 +10,7 @@ struct SharedData
 struct ReceivedData
 {
     int instruction;         // value 0-255 (stearing) if -1, then no steering
+    int cut;                 // value that cuts the wires
     volatile bool dataReady; // Flag to indicate new data is ready
 };
 
