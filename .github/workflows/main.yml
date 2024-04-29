@@ -4,7 +4,7 @@ on: [push]
 jobs:
   build-and-tests:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
