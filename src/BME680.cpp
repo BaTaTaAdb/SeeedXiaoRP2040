@@ -59,7 +59,20 @@ void getBME680Data()
         sharedData.height = bme.readAltitude(sharedData.groundPressure);
         sharedData.humidity = bme.readHumidity();
         sharedData.gasResistance = bme.gas_resistance / 1000;
-        sharedData.vbat = analogRead(VBAT_PIN) * (5.0 / 1024.0) * 3; // Reads analog pin and converts it to volts
+        sharedData.vbat = analogRead(VBAT_PIN) * 0.01302083; // (5.0 / 1024.0) * 3 * (8 / 9); // Reads analog pin and converts it to volts
         sharedData.dataReady = true;
+
+        Serial.print(sharedData.pressure);
+        Serial.print(",");
+        Serial.print(sharedData.temperature);
+        Serial.print(",");
+        Serial.print(sharedData.height);
+        Serial.print(",");
+        Serial.print(sharedData.humidity);
+        Serial.print(",");
+        Serial.print(sharedData.gasResistance);
+        Serial.print(",");
+        Serial.print(sharedData.vbat);
+        Serial.println();
     }
 }
