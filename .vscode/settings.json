@@ -10,6 +10,7 @@
     "unordered_map": "cpp",
     "string_view": "cpp",
     "initializer_list": "cpp",
-    "map": "cpp"
+    "map": "cpp",
+    "adafruit_bmp280.h": "c"
   }
 }

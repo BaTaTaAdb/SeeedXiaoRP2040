@@ -1,8 +1,8 @@
 #include "SerialComs.h"
 #include "SharedData.h"
 
-//ReceivedData receivedData; // Declaration of the received data object
-//SharedData sharedData;     // Declaration of the shared data object
+// ReceivedData receivedData; // Declaration of the received data object
+// SharedData sharedData;     // Declaration of the shared data object
 
 int gliderInstruction;
 int operation;
@@ -32,7 +32,7 @@ void loopSerialComs()
         // "control,operation\n" (if -1, then no instruction)
         String message = Serial1.readStringUntil('\n');
         parseString(message, gliderInstruction, operation);
-        receivedData.gliderInstruction = gliderInstruction;
+        // receivedData.gliderInstruction = gliderInstruction;
         receivedData.operation = operation;
         receivedData.dataReady = true;
     }
@@ -43,14 +43,9 @@ void loopSerialComs()
         Serial1.print(",");
         Serial1.print(sharedData.temperature);
         Serial1.print(",");
-        Serial1.print(sharedData.height);
-        Serial1.print(",");
-        Serial1.print(sharedData.humidity);
-        Serial1.print(",");
-        Serial1.print(sharedData.gasResistance);
-        Serial1.print(",");
         Serial1.print(sharedData.vbat);
         Serial1.println();
+        sharedData.dataReady = false;
     }
 }
 

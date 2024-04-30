@@ -1,7 +1,7 @@
 #ifndef SERIAL_COMS_H
 #define SERIAL_COMS_H
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 const int UART_TX_PIN = 0;
 const int UART_RX_PIN = 1;

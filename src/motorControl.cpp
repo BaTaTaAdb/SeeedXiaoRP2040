@@ -35,7 +35,8 @@ void motorControlLoop()
     if (!receivedData.dataReady)
         return;
 
-    int gliderInstruction = receivedData.gliderInstruction; // Instruction range 0-255
+    // int gliderInstruction = receivedData.gliderInstruction; // Instruction range 0-255
+    int gliderInstruction = -1; // Instruction range 0-255
     int operation = receivedData.operation;
     int targetValue2 = 255 - gliderInstruction; // Complementary target for motor2
 
@@ -61,14 +62,14 @@ void motorControlLoop()
     if (gliderInstruction == -1)
         return;
 
-    int analogValue1 = analogRead(ANALOG_MOTOR_PIN_1);
+    /* int analogValue1 = analogRead(ANALOG_MOTOR_PIN_1);
     int analogValue2 = analogRead(ANALOG_MOTOR_PIN_2);
 
     int motorValue1 = map(analogValue1, 0, 1023, 0, 255);
     int motorValue2 = map(analogValue2, 0, 1023, 0, 255);
 
     adjustMotor(motor1, motorValue1, gliderInstruction);
-    adjustMotor(motor2, motorValue2, targetValue2);
+    adjustMotor(motor2, motorValue2, targetValue2); */
 }
 
 void adjustMotor(MiniMotor &motor, int currentValue, int targetValue)
