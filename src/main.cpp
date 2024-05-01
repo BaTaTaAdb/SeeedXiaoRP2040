@@ -9,16 +9,14 @@ void setup()
 {
   Serial.begin(115200); // Serial to computer
 
-  // setupBMP280();
   setupBME680();
-  // setupSerialComs();
+  setupSerialComs();
 }
 
 void loop()
 {
-  // getBMP280Data();
   getBME680Data();
-  // loopSerialComs();
+  loopSerialComs();
   Serial.println("Bootup!");
 }
 
