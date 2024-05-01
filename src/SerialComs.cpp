@@ -1,3 +1,4 @@
+// XIAO RP2040
 #include "SerialComs.h"
 #include "SharedData.h"
 
@@ -43,21 +44,39 @@ void loopSerialComs()
         Serial1.print(",");
         Serial1.print(sharedData.temperature);
         Serial1.print(",");
+        Serial1.print(sharedData.height);
+        Serial1.print(",");
         Serial1.print(sharedData.vbat);
         Serial1.println();
         sharedData.dataReady = false;
     }
 }
 
-void parseString(const String &input, int &num1, int &num2)
+void parseString(const String &input, int &num1, int &num2, int &num3, int &num4)
 {
-    int commaIndex = input.indexOf(',');
-    if (commaIndex == -1)
+    int firstCommaIndex = input.indexOf(',');
+    if (firstCommaIndex == -1)
     {
-        Serial.println("Error: No comma in string.");
+        Serial.println("Error: First comma missing in string.");
         return;
     }
 
-    num1 = input.substring(0, commaIndex).toInt();
-    num2 = input.substring(commaIndex + 1).toInt();
+    int secondCommaIndex = input.indexOf(',', firstCommaIndex + 1);
+    if (secondCommaIndex == -1)
+    {
+        Serial.println("Error: Second comma missing in string.");
+        return;
+    }
+
+    int thirdCommaIndex = input.indexOf(',', secondCommaIndex + 1);
+    if (thirdCommaIndex == -1)
+    {
+        Serial.println("Error: Third comma missing in string.");
+        return;
+    }
+
+    num1 = input.substring(0, firstCommaIndex).toInt();
+    num2 = input.substring(firstCommaIndex + 1, secondCommaIndex).toInt();
+    num3 = input.substring(secondCommaIndex + 1, thirdCommaIndex).toInt();
+    num4 = input.substring(thirdCommaIndex + 1).toInt();
 }
