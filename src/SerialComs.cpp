@@ -19,15 +19,6 @@ void setupSerialComs()
     Serial1.setRX(UART_RX_PIN);
     Serial1.setTX(UART_TX_PIN);
     Serial1.begin(UART_BAUD_RATE);
-
-    /* while (!Serial1)
-    {
-        delay(50); // wait for raspberry pi pico to connect
-    }
-    while (Serial1.available() == 0)
-    {
-        delay(100);
-    } */
 }
 
 void loopSerialComs()
@@ -37,28 +28,18 @@ void loopSerialComs()
     {
         // "control,operation\n" (if -1, then no instruction)
         String message = Serial1.readStringUntil('\n');
+        message.trim();
+        if (message == "open")
+        {
+            cutParachute(1);
+            Serial.println("Start motor!");
+        }
         // parseString(message, gliderInstruction, operation);
         // receivedData.gliderInstruction = gliderInstruction;
         // receivedData.operation = operation;
         // receivedData.dataReady = true;
-        // Serial.print("Received data: ");
-        // Serial.println(message);
-    }
-
-    if (Serial.available() > 0)
-    {
-        // "control,operation\n" (if -1, then no instruction)
-        String message = Serial.readStringUntil('\n');
-        cut = message.toInt() == 1;
-        cutParachute(cut);
-        Serial.print("Cutting parachute...");
-
-        // parseString(message, gliderInstruction, operation);
-        // receivedData.gliderInstruction = gliderInstruction;
-        // receivedData.operation = operation;
-        // receivedData.dataReady = true;
-        // Serial.print("Received data: ");
-        // Serial.println(message);
+        Serial.print("Received data: ");
+        Serial.println(message);
     }
 
     if (sharedData.dataReady)
