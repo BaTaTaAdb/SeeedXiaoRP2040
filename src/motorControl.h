@@ -7,11 +7,13 @@
 const int ANALOG_MOTOR_PIN_1 = 27;
 const int ANALOG_MOTOR_PIN_2 = 26;
 
-const int MOSFET_1_PIN = 10;
-const int MOSFET_2_PIN = 11;
+const int MOSFET_1_PIN = 2;
+const int MOSFET_2_PIN = 4;
+void runMotor(MiniMotor &motor);
 
 const int BUZZER_PIN = 28;
 
+void cutParachute(bool cut);
 void motorControlSetup();
 void motorControlLoop();
 void checkAndReportFault(MiniMotor &motor);

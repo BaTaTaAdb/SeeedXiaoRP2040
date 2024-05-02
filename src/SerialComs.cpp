@@ -1,6 +1,9 @@
 // XIAO RP2040
 #include "SerialComs.h"
 #include "SharedData.h"
+#include "motorControl.h"
+
+bool cut;
 
 // ReceivedData receivedData; // Declaration of the received data object
 // SharedData sharedData;     // Declaration of the shared data object
@@ -33,7 +36,23 @@ void loopSerialComs()
     if (Serial1.available() > 0)
     {
         // "control,operation\n" (if -1, then no instruction)
-        // String message = Serial2.readStringUntil('\n');
+        String message = Serial1.readStringUntil('\n');
+        // parseString(message, gliderInstruction, operation);
+        // receivedData.gliderInstruction = gliderInstruction;
+        // receivedData.operation = operation;
+        // receivedData.dataReady = true;
+        // Serial.print("Received data: ");
+        // Serial.println(message);
+    }
+
+    if (Serial.available() > 0)
+    {
+        // "control,operation\n" (if -1, then no instruction)
+        String message = Serial.readStringUntil('\n');
+        cut = message.toInt() == 1;
+        cutParachute(cut);
+        Serial.print("Cutting parachute...");
+
         // parseString(message, gliderInstruction, operation);
         // receivedData.gliderInstruction = gliderInstruction;
         // receivedData.operation = operation;

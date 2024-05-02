@@ -12,8 +12,8 @@ const int updateInterval = 50; // Interval for updating motor position
 
 void motorControlSetup()
 {
-    pinMode(ANALOG_MOTOR_PIN_1, INPUT);
-    pinMode(ANALOG_MOTOR_PIN_2, INPUT);
+    pinMode(ANALOG_MOTOR_PIN_1, OUTPUT);
+    pinMode(ANALOG_MOTOR_PIN_2, OUTPUT);
     pinMode(MOSFET_1_PIN, OUTPUT);
     digitalWrite(MOSFET_1_PIN, LOW); // Set MOSFET_1_PIN HIGH to enable MOSFET()
     pinMode(MOSFET_2_PIN, OUTPUT);
@@ -62,6 +62,12 @@ void motorControlLoop()
     if (gliderInstruction == -1)
         return;
 
+    while (1)
+    {
+        runMotor(motor1);
+        runMotor(motor2);
+    }
+
     /* int analogValue1 = analogRead(ANALOG_MOTOR_PIN_1);
     int analogValue2 = analogRead(ANALOG_MOTOR_PIN_2);
 
@@ -72,15 +78,10 @@ void motorControlLoop()
     adjustMotor(motor2, motorValue2, targetValue2); */
 }
 
-void adjustMotor(MiniMotor &motor, int currentValue, int targetValue)
+void runMotor(MiniMotor &motor)
 {
-    if (abs(currentValue - targetValue) > range)
-    {
-        int direction = (currentValue < targetValue) ? motorDriveStrength : -motorDriveStrength;
-        motor.drive(direction);
-        delay(updateInterval);
-        checkAndReportFault(motor);
-    }
+    motor.drive(100);
+    delay(1000);
 }
 
 void delayUntil(unsigned long elapsedTime)
@@ -108,4 +109,25 @@ void checkAndReportFault(MiniMotor &motor)
         if (faultStatus & OTS)
             Serial.println("Over temp!");
     }
+}
+
+void cutParachute(bool cut)
+{
+    if (cut)
+    {
+
+        analogWrite(MOSFET_1_PIN, 1023);
+        analogWrite(MOSFET_2_PIN, 1023);
+        digitalWrite(ANALOG_MOTOR_PIN_1, HIGH);
+        digitalWrite(ANALOG_MOTOR_PIN_2, HIGH);
+    }
+    else
+    {
+
+        digitalWrite(MOSFET_1_PIN, LOW);
+        digitalWrite(MOSFET_2_PIN, LOW);
+        digitalWrite(ANALOG_MOTOR_PIN_1, LOW);
+        digitalWrite(ANALOG_MOTOR_PIN_2, LOW);
+    }
+    Serial.println(cut);
 }
