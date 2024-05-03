@@ -131,3 +131,12 @@ void cutParachute(bool cut)
     }
     Serial.println(cut);
 }
+
+void buzzerControl(bool state) {
+    if (state) {
+        digitalWrite(BUZZER_PIN, LOW);
+    }
+    else {
+        digitalWrite(BUZZER_PIN, HIGH);
+    }
+}

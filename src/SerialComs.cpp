@@ -33,6 +33,12 @@ void loopSerialComs()
         {
             cutParachute(1);
             Serial.println("Start motor!");
+        } else if (message == "buzzON") {
+            buzzerControl(true);
+            Serial.println("Buzz ON!");
+        } else if (message == "buzzOFF") {
+            buzzerControl(false);
+            Serial.println("Buzz OFF!");
         }
         // parseString(message, gliderInstruction, operation);
         // receivedData.gliderInstruction = gliderInstruction;

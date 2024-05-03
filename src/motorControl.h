@@ -19,5 +19,6 @@ void motorControlLoop();
 void checkAndReportFault(MiniMotor &motor);
 void delayUntil(unsigned long elapsedTime);
 void adjustMotor(MiniMotor &motor, int currentValue, int targetValue);
+void buzzerControl(bool state);
 
 #endif
